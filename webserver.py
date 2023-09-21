@@ -5,7 +5,7 @@ from datetime import datetime
 conn = sqlite3.connect('visits.db')
 c = conn.cursor()
 
-#таблица
+# таблица
 c.execute('''
     CREATE TABLE IF NOT EXISTS visits (
         id INTEGER PRIMARY KEY,
@@ -16,6 +16,7 @@ c.execute('''
     )
 ''')
 
+
 async def handle(request):
     ip = request.remote
     path = request.path
@@ -24,9 +25,10 @@ async def handle(request):
         c.execute("INSERT INTO visits (ip, path) VALUES (?, ?)", (ip, path))
 
     return web.Response(text="Hello,\n"
-                                 "If you want to see counter - use /stats/{period}\n"
-                                 "If you want to see unique counter - use /unistats/{period}\n"
-                                 "Where period can be day/month/year/total")
+                             "If you want to see counter - use /stats/{period}\n"
+                             "If you want to see unique counter - use /unistats/{period}\n"
+                             "Where period can be day/month/year/total")
+
 
 async def get_stats(request):
     period = request.match_info.get('period')
@@ -47,6 +49,7 @@ async def get_stats(request):
 
     return web.Response(text=f"Number of visits this {period}: {count}")
 
+
 async def get_unique_stats(request):
     period = request.match_info.get('period')
 
@@ -65,6 +68,7 @@ async def get_unique_stats(request):
         count = c.fetchone()[0]
 
     return web.Response(text=f"Number of unique visits this {period}: {count}")
+
 
 app = web.Application()
 app.router.add_get('/', handle)

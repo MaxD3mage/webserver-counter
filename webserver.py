@@ -1,10 +1,8 @@
 import sqlite3
 from aiohttp import web
 from datetime import datetime
-import json
+
 import requests
-import aiohttp
-import socket
 import uuid
 
 conn = sqlite3.connect('visits.db')
@@ -185,11 +183,3 @@ def get_set_cookie(user_id_cookie, response_data):
         response_data.set_cookie('user_id', user_id)
     return user_id
 
-
-app = web.Application()
-app.router.add_get('/', handle)
-app.router.add_get('/stats', get_stats)
-app.router.add_get('/unistats', get_unique_stats)
-
-if __name__ == '__main__':
-    web.run_app(app)

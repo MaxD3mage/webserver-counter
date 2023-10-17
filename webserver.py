@@ -173,6 +173,9 @@ def check_browsers(user_agent):
 
 
 def get_set_cookie(user_id_cookie, response_data):
+    if user_id_cookie == "None":
+        user_id_cookie = None
+
     if user_id_cookie:
         # Идентификатор пользователя уже существует в куках
         user_id = user_id_cookie
